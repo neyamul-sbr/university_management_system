@@ -35,9 +35,9 @@
                   <form action = "" method="POST" class="forms-sample">
                     {% csrf_token %}
                     <div class="form-group row">
-                      <label for="exampleInputUsername2" class="col-sm-3 col-form-label">Username</label>
+                      <label for="username" class="col-sm-3 col-form-label">Username</label>
                       <div class="col-sm-9">
-                        {{form.username}}
+                        <input type="text" name="username" class="form-control" id="username" placeholder="Username">
                   
                       </div>
                     </div>
@@ -54,9 +54,9 @@
                       </div>
                     </div> -->
                     <div class="form-group row">
-                      <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Password</label>
+                      <label for="password" class="col-sm-3 col-form-label">Password</label>
                       <div class="col-sm-9">
-                        {{form.password1}}
+                        <input type="password" name = "password" class="form-control" id="password" placeholder="Password">
                       </div>
                     </div>
                     <!-- <div class="form-group row">
@@ -71,6 +71,9 @@
                         Remember me
                       </label> -->
                     </div>
+
+
+
                     <div>
                       <div class="d-flex justify-content-center links pt-2 pb-4">
                         Do not have an account? <a href="{% url 'register'%}" class = "ml-2">Sign Up</a>
@@ -108,4 +111,3 @@
     <script src="{% static 'template./js/select2.js'%}"></script>
     <!-- End custom js for this page-->
   </body>
-
