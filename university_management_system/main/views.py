@@ -1,4 +1,5 @@
 import json
+from django.contrib.auth.models import Group
 import requests
 from django.contrib import messages
 from django.core.files.storage import FileSystemStorage
@@ -22,7 +23,7 @@ from .forms import CreateUserForm
 from django.contrib import messages
 
 from django.contrib.auth import authenticate, login, logout
-from .decorators import unauthenticated_user
+from .decorators import allowed_users, unauthenticated_user
 
 @unauthenticated_user
 def loginPage(request):
@@ -47,8 +48,13 @@ def registerPage(request):
         form = CreateUserForm(request.POST)
         if form.is_valid():
             form.save()
-            user = form.cleaned_data.get('username')
-            messages.success(request, 'Account is created for ' + user)
+            user = form.save()
+            username = form.cleaned_data.get('username')
+            group = Group.objects.get(name = 'student')
+            user.groups.add(group)
+
+
+            messages.success(request, 'Account is created for ' + username)
             return redirect('login')
 
     context = {'form':form}
@@ -58,5 +64,10 @@ def logoutPage(request):
     logout(request)
     return redirect('login') 
 @login_required(login_url = 'login')
+@allowed_users(allowed_roles=['admin'])
 def home(request):
+    return render(request,'student_template/index.html')
+
+
+def studentHome(request):
     return render(request,'student_template/index.html')
