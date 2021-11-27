@@ -20,7 +20,7 @@ from .models import *
 from .forms import CreateUserForm
 
 def login(request):
-    return render(request, 'registration_template/basic_elements.html')
+    return render(request, 'login_template/basic_elements.html')
 def registerPage(request):
     form = CreateUserForm()
     if request.method == 'POST':
