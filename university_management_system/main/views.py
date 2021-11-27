@@ -9,6 +9,7 @@ from django.templatetags.static import static
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import UpdateView
+from django.contrib.auth.forms import UserCreationForm
 
 from .models import *
 from django.core import management
@@ -16,6 +17,17 @@ from django.core.management.commands import loaddata
 
 #from .EmailBackend import EmailBackend
 from .models import *
+from .forms import CreateUserForm
 
+def login(request):
+    return render(request, 'registration_template/basic_elements.html')
 def registerPage(request):
-    return render(request,'student_template/index.html')
+    form = CreateUserForm()
+    if request.method == 'POST':
+        form = CreateUserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login')
+
+    context = {'form':form}
+    return render(request,'registration_template/basic_elements.html',context)
