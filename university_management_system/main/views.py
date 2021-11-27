@@ -68,6 +68,9 @@ def logoutPage(request):
 def home(request):
     return render(request,'student_template/index.html')
 
-
+@login_required(login_url = 'login')
+@allowed_users(allowed_roles=['student'])
 def studentHome(request):
+    # name = request.user.student.name.all()
+    # context ={'name':name}
     return render(request,'student_template/index.html')

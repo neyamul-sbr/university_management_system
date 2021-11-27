@@ -85,11 +85,11 @@
               <img src="{% static 'template/images/favicon.png' %}" class="img-circle elevation-2" alt="User Image">
             </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-              <a class="dropdown-item">
+              <!-- <a class="dropdown-item">
                 <i class="ti-settings text-primary"></i>
                 Settings
-              </a>
-              <a href="{% url 'logout' %}" onclick="return confirm('You will be logged Out.\n\nProceed?')">
+              </a> -->
+              <a class="dropdown-item" href="{% url 'logout' %}" onclick="return confirm('You will be logged Out.\n\nProceed?')">
                 <i class="nav-icon fas fa-th"></i>
                 <i class="ti-power-off text-primary"></i>
                  Logout
