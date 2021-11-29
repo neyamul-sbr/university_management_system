@@ -31,11 +31,28 @@ class StudentForm(ModelForm):
         # self.fields['profile_pic'].widget.attrs['class'] = 'file-upload-default'
         # self.fields['profile_pic'].widget.attrs['class'] = 'form-control file-upload-info'
         # self.fields['profile_pic'].widget.attrs['disabled placeholder'] = "Upload Image"
+
+    class Meta:
+        model = Student
+        fields = ['name','phone','profile_pic',]
+
+
+
+class AdminForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(AdminForm, self).__init__(*args, **kwargs)
+        self.fields['name'].widget.attrs['class'] = 'form-control'
+        self.fields['name'].widget.attrs['placeholder'] = "Admin's Name"
+        self.fields['phone'].widget.attrs['class'] = 'form-control'
+        self.fields['phone'].widget.attrs['placeholder'] = "Admin's Phone"
+        # self.fields['profile_pic'].widget.attrs['class'] = 'file-upload-default'
+        # self.fields['profile_pic'].widget.attrs['class'] = 'form-control file-upload-info'
+        # self.fields['profile_pic'].widget.attrs['disabled placeholder'] = "Upload Image"
         
 
 
     class Meta:
-        model = Student
+        model = AdminUser
         fields = ['name','phone','profile_pic',]
 
 

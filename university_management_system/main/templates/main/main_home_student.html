@@ -1,57 +1,43 @@
 {%load static%}
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Skydash Admin</title>
+  <title>Student Dashboard</title>
   <!-- plugins:css -->
-  <link rel="stylesheet" href="{% static 'template/vendors/vendors/feather/feather.css'%}">
-  <link rel="stylesheet" href="{% static 'template/vendors/vendors/ti-icons/css/themify-icons.css' %}">
-  <link rel="stylesheet" href="{% static 'template/vendors/vendors/css/vendor.bundle.base.css' %}">
+  <link rel="stylesheet" href="{% static 'template/vendors/feather/feather.css' %}">
+  <link rel="stylesheet" href="{% static 'template/vendors/ti-icons/css/themify-icons.css' %}">
+  <link rel="stylesheet" href="{% static 'template/vendors/css/vendor.bundle.base.css' %}">
   <!-- endinject -->
   <!-- Plugin css for this page -->
-  <link rel="stylesheet" href="{% static 'template/vendors/select2/select2.min.css' %}">
-  <link rel="stylesheet" href="{% static 'template/vendors/select2-bootstrap-theme/select2-bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'template/vendors/datatables.net-bs4/dataTables.bootstrap4.css' %}">
+  <link rel="stylesheet" href="{% static 'template/vendors/ti-icons/css/themify-icons.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'template/js/select.dataTables.min.css' %}">
   <!-- End plugin css for this page -->
   <!-- inject:css -->
   <link rel="stylesheet" href="{% static 'template/css/vertical-layout-light/style.css' %}">
   <!-- endinject -->
   <link rel="shortcut icon" href="{% static 'template/images/favicon.png' %}">
 </head>
-
 <body>
   <div class="container-scroller">
-    <!-- partial:../../partials/_navbar.html -->
+    <!-- partial:partials/_navbar.html -->
     <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
       <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-        <a class="navbar-brand brand-logo mr-5" href="../../index.html"><img src="../../images/logo.svg" class="mr-2" alt="logo"/></a>
-        <a class="navbar-brand brand-logo-mini" href="../../index.html"><img src="../../images/logo-mini.svg" alt="logo"/></a>
+        <a class="navbar-brand brand-logo mr-5" href="{% url 'home' %}"><img src="{% static 'template/images/favicon.png' %}" class="mr-2" alt="logo"/></a>
+        <a class="navbar-brand brand-logo-mini" href="{% url 'home' %}"><img src="{% static 'template/images/favicon.png' %}" alt="logo"/></a>
       </div>
-      <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+      <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end"> 
         <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
           <span class="icon-menu"></span>
         </button>
-        <ul class="navbar-nav mr-lg-2">
-          <li class="nav-item nav-search d-none d-lg-block">
-            <div class="input-group">
-              <div class="input-group-prepend hover-cursor" id="navbar-search-icon">
-                <span class="input-group-text" id="search">
-                  <i class="icon-search"></i>
-                </span>
-              </div>
-              <input type="text" class="form-control" id="navbar-search-input" placeholder="Search now" aria-label="search" aria-describedby="search">
-            </div>
-          </li>
-        </ul>
+        <div class="pl-5">Student Management System</div>
+        
         <ul class="navbar-nav navbar-nav-right">
           <li class="nav-item dropdown">
-            <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-toggle="dropdown">
-              <i class="icon-bell mx-0"></i>
-              <span class="count"></span>
-            </a>
+        
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
               <p class="mb-0 font-weight-normal float-left dropdown-header">Notifications</p>
               <a class="dropdown-item preview-item">
@@ -97,17 +83,18 @@
           </li>
           <li class="nav-item nav-profile dropdown">
             <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-              <img src="../../images/faces/face28.jpg" alt="profile"/>
+              <img src="{{request.user.student.profile_pic.url}}" class="img-circle elevation-2" alt="User Image">
             </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-              <a class="dropdown-item">
+              <!-- <a class="dropdown-item">
                 <i class="ti-settings text-primary"></i>
                 Settings
-              </a>
-              <a class="dropdown-item">
+              </a> -->
+              <a class="dropdown-item" href="{% url 'logout' %}" onclick="return confirm('You will be logged Out.\n\nProceed?')">
+                <i class="nav-icon fas fa-th"></i>
                 <i class="ti-power-off text-primary"></i>
-                Logout
-              </a>
+                 Logout
+            </a>
             </div>
           </li>
           <li class="nav-item nav-settings d-none d-lg-flex">
@@ -123,7 +110,7 @@
     </nav>
     <!-- partial -->
     <div class="container-fluid page-body-wrapper">
-      <!-- partial:../../partials/_settings-panel.html -->
+      <!-- partial:partials/_settings-panel.html -->
       <div class="theme-setting-wrapper">
         <div id="settings-trigger"><i class="ti-settings"></i></div>
         <div id="theme-settings" class="settings-panel">
@@ -237,7 +224,7 @@
             </div>
             <ul class="chat-list">
               <li class="list active">
-                <div class="profile"><img src="../../images/faces/face1.jpg" alt="image"><span class="online"></span></div>
+                <div class="profile"><img src="images/faces/face1.jpg" alt="image"><span class="online"></span></div>
                 <div class="info">
                   <p>Thomas Douglas</p>
                   <p>Available</p>
@@ -245,7 +232,7 @@
                 <small class="text-muted my-auto">19 min</small>
               </li>
               <li class="list">
-                <div class="profile"><img src="../../images/faces/face2.jpg" alt="image"><span class="offline"></span></div>
+                <div class="profile"><img src="images/faces/face2.jpg" alt="image"><span class="offline"></span></div>
                 <div class="info">
                   <div class="wrapper d-flex">
                     <p>Catherine</p>
@@ -256,7 +243,7 @@
                 <small class="text-muted my-auto">23 min</small>
               </li>
               <li class="list">
-                <div class="profile"><img src="../../images/faces/face3.jpg" alt="image"><span class="online"></span></div>
+                <div class="profile"><img src="images/faces/face3.jpg" alt="image"><span class="online"></span></div>
                 <div class="info">
                   <p>Daniel Russell</p>
                   <p>Available</p>
@@ -264,7 +251,7 @@
                 <small class="text-muted my-auto">14 min</small>
               </li>
               <li class="list">
-                <div class="profile"><img src="../../images/faces/face4.jpg" alt="image"><span class="offline"></span></div>
+                <div class="profile"><img src="images/faces/face4.jpg" alt="image"><span class="offline"></span></div>
                 <div class="info">
                   <p>James Richardson</p>
                   <p>Away</p>
@@ -272,7 +259,7 @@
                 <small class="text-muted my-auto">2 min</small>
               </li>
               <li class="list">
-                <div class="profile"><img src="../../images/faces/face5.jpg" alt="image"><span class="online"></span></div>
+                <div class="profile"><img src="images/faces/face5.jpg" alt="image"><span class="online"></span></div>
                 <div class="info">
                   <p>Madeline Kennedy</p>
                   <p>Available</p>
@@ -280,7 +267,7 @@
                 <small class="text-muted my-auto">5 min</small>
               </li>
               <li class="list">
-                <div class="profile"><img src="../../images/faces/face6.jpg" alt="image"><span class="online"></span></div>
+                <div class="profile"><img src="images/faces/face6.jpg" alt="image"><span class="online"></span></div>
                 <div class="info">
                   <p>Sarah Graves</p>
                   <p>Available</p>
@@ -293,62 +280,43 @@
         </div>
       </div>
       <!-- partial -->
-      <!-- partial:../../partials/_sidebar.html -->
+      <!-- partial:partials/_sidebar.html -->
       <nav class="sidebar sidebar-offcanvas" id="sidebar">
         <ul class="nav">
           <li class="nav-item">
-            <a class="nav-link" href="../../index.html">
+            <a class="nav-link" href="{% url 'home' %}">
               <i class="icon-grid menu-icon"></i>
               <span class="menu-title">Dashboard</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="add_student.html">
-              <i class="icon-grid menu-icon"></i>
-              <span class="menu-title">Add Student</span>
             </a>
           </li>
         </ul>
       </nav>
 
+      {%block content%}
 
+      {%endblock%}
 
+        <!-- plugins:js -->
+  <script src="{% static 'template/vendors/js/vendor.bundle.base.js' %}"></script>
+  <!-- endinject -->
+  <!-- Plugin js for this page -->
+  <script src="{% static 'template/vendors/chart.js/Chart.min.js' %}"></script>
+  <script src="{% static 'template/vendors/datatables.net/jquery.dataTables.js' %}"></script>
+  <script src="{% static 'template/vendors/datatables.net-bs4/dataTables.bootstrap4.js' %}"></script>
+  <script src="{% static 'template/js/dataTables.select.min.js' %}"></script>
 
-       {%block content%}
+  <!-- End plugin js for this page -->
+  <!-- inject:js -->
+  <script src="{% static 'template/js/off-canvas.js' %}"></script>
+  <script src="{% static 'template/js/hoverable-collapse.js' %}"></script>
+  <script src="{% static 'template/js/template.js' %}"></script>
+  <script src="{% static 'template/js/settings.js' %}"></script>
+  <script src="{% static 'template/js/todolist.js' %}"></script>
+  <!-- endinject -->
+  <!-- Custom js for this page-->
+  <script src="{% static 'template/js/dashboard.js' %}"></script>
+  <script src="{% static 'template/js/Chart.roundedBarCharts.js' %}"></script>
+  <!-- End custom js for this page-->
+</body>
 
-       {%endblock%}
-
-
-
-
-
-
-        <!-- content-wrapper ends -->
-        <!-- partial:../../partials/_footer.html -->
-          <!-- partial -->
-        </div>
-        <!-- main-panel ends -->
-      </div>
-      <!-- page-body-wrapper ends -->
-    </div>
-    <!-- container-scroller -->
-    <!-- plugins:js -->
-    <script src="{% static 'template/vendors/js/vendor.bundle.base.js'%}"></script>
-    <!-- endinject -->
-    <!-- Plugin js for this page -->
-    <script src="{% static 'template/vendors/typeahead.js/typeahead.bundle.min.js'%}"></script>
-    <script src="{% static 'template/vendors/select2/select2.min.js'%}"></script>
-    <!-- End plugin js for this page -->
-    <!-- inject:js -->
-    <script src="{% static 'template/js/off-canvas.js'%}"></script>
-    <script src="{% static 'template/js/hoverable-collapse.js'%}"></script>
-    <script src="{% static 'template/js/template.js'%}"></script>
-    <script src="{% static 'template/js/settings.js'%}"></script>
-    <script src="{% static 'template/js/todolist.js'%}"></script>
-    <!-- endinject -->
-    <!-- Custom js for this page-->
-    <script src="{% static 'template/js/file-upload.js'%}"></script>
-    <script src="{% static 'template/js/typeahead.js'%}"></script>
-    <script src="{% static 'template./js/select2.js'%}"></script>
-    <!-- End custom js for this page-->
-  </body>
+</html>
