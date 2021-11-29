@@ -14,7 +14,8 @@
             {% endfor %}
           </ul>
           {% endif %}
-          {{form.errors}}
+          {{user_form.errors}}
+          {{admin_form.errors}}
           </div>
             <div class="col-md-12 grid-margin stretch-card">
 
@@ -79,7 +80,7 @@
                         <label>Image Upload</label>
                         <input type="file" name="img[]" class="file-upload-default">
                         <div class="input-group col-xs-12">
-                        {{student_form.profile_pic}}
+                        {{admin_form.profile_pic}}
                         </div>
                       </div>
                     </div>

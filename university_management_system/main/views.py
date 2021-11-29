@@ -67,7 +67,7 @@ def registerPage(request):
             group = Group.objects.get(name = 'admin')
             user.groups.add(group)
         else:
-            messages.error(request, "Could Not Add")
+            messages.success(request, "Successfully Admin Added")
     return render(request, 'registration_template/add_admin.html',context)
 
 def logoutPage(request):
@@ -111,6 +111,7 @@ def add_student(request):
             # passport_url = fs.url(filename)
             group = Group.objects.get(name = 'student')
             user.groups.add(group)
+            messages.success(request, "Successfully Student Added")
         else:
             messages.error(request, "Could Not Add")
     return render(request, 'student_template/add_student.html',context)
