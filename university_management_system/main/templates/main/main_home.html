@@ -82,7 +82,7 @@
           </li>
           <li class="nav-item nav-profile dropdown">
             <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-              <img src="{% static 'template/images/favicon.png' %}" class="img-circle elevation-2" alt="User Image">
+              <img src="{{request.user.student.profile_pic.url}}" class="img-circle elevation-2" alt="User Image">
             </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
               <!-- <a class="dropdown-item">

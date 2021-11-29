@@ -2,6 +2,7 @@ from django.forms import ModelForm, widgets
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from django.contrib.auth.models import User
+from .models import *
 
 
 class CreateUserForm(UserCreationForm):
@@ -19,5 +20,23 @@ class CreateUserForm(UserCreationForm):
         self.fields['password1'].widget.attrs['placeholder'] = 'Password'
         self.fields['password2'].widget.attrs['class'] = 'form-control'
         self.fields['password2'].widget.attrs['placeholder'] = 'Retype Password'
+
+class StudentForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(StudentForm, self).__init__(*args, **kwargs)
+        self.fields['name'].widget.attrs['class'] = 'form-control'
+        self.fields['name'].widget.attrs['placeholder'] = "Student's Name"
+        self.fields['phone'].widget.attrs['class'] = 'form-control'
+        self.fields['phone'].widget.attrs['placeholder'] = "Student's Phone"
+        # self.fields['profile_pic'].widget.attrs['class'] = 'file-upload-default'
+        # self.fields['profile_pic'].widget.attrs['class'] = 'form-control file-upload-info'
+        # self.fields['profile_pic'].widget.attrs['disabled placeholder'] = "Upload Image"
+        
+
+
+    class Meta:
+        model = Student
+        fields = ['name','phone','profile_pic',]
+
 
 
