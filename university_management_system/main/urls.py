@@ -10,6 +10,7 @@ urlpatterns = [
     path("add_student/",views.add_student, name ='add_student'),
     path("add_admin/",views.add_admin, name ='add_admin'),
     path("get_att/",views.get_att, name ='get_att'),
+    path("get_subtype/",views.get_subtype, name ='get_subtype'),
 
 
 

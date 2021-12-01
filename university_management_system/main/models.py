@@ -38,8 +38,10 @@ class AdminUser(models.Model):
 class Result(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     course_code = models.CharField(max_length= 200)
-    marks  = models.CharField(max_length= 200, null = True)
+    marks  = models.IntegerField(null = True)
     attendence = models.IntegerField(null = True)
+    class Meta:
+        unique_together = (("student","course_code"))
 
 class Subject(models.Model):
     course_code = models.CharField(max_length= 200)

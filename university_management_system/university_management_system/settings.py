@@ -21,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 
+SECRET_KEY = '_wlo$u-o)p8*8c_%6^_+z=t$(4wx5u(u^xjpc1!-pc4jwl-jma'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -85,7 +85,7 @@ WSGI_APPLICATION = 'university_management_system.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'DEMO4',
+        'NAME': 'DEMO5',
         'USER': 'postgres',
         'PASSWORD': 'admin',
         'HOST': '127.0.0.1',
