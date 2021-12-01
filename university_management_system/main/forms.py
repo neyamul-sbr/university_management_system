@@ -28,13 +28,15 @@ class StudentForm(ModelForm):
         self.fields['name'].widget.attrs['placeholder'] = "Student's Name"
         self.fields['phone'].widget.attrs['class'] = 'form-control'
         self.fields['phone'].widget.attrs['placeholder'] = "Student's Phone"
+        self.fields['registration_number'].widget.attrs['class'] = 'form-control'
+        self.fields['registration_number'].widget.attrs['placeholder'] = "registration_number"
         # self.fields['profile_pic'].widget.attrs['class'] = 'file-upload-default'
         # self.fields['profile_pic'].widget.attrs['class'] = 'form-control file-upload-info'
         # self.fields['profile_pic'].widget.attrs['disabled placeholder'] = "Upload Image"
 
     class Meta:
         model = Student
-        fields = ['name','phone','profile_pic',]
+        fields = ['name','phone','registration_number','profile_pic',]
 
 
 

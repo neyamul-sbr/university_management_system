@@ -25,6 +25,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from .decorators import allowed_users, unauthenticated_user
 
+
 @unauthenticated_user
 def loginPage(request):
     if request.method == 'POST':
@@ -83,9 +84,58 @@ def home(request):
 @login_required(login_url = 'login')
 @allowed_users(allowed_roles=['student'])
 def studentHome(request):
-    name = request.user.student.phone
-    context ={'name':name}
+    name = request.user.student.name
+    regi = request.user.student.registration_number
+    
+    credits = Subject.objects.raw('''
+    SELECT 1 as id, SUM(credit)
+    FROM public.main_student JOIN public.main_result ON
+    main_student.registration_number = main_result.student_id
+    JOIN public.main_subject ON main_result.course_code = main_subject.course_code
+	where main_student.registration_number=%s;''',[regi])[0]
+
+
+    percent_registered = ((credits.sum)*100)/160
+    attendance = Result.objects.raw('''
+    SELECT 1 as id, subject_name as sn , attendence as attend FROM
+    public.main_student JOIN public.main_result ON
+    main_student.registration_number = main_result.student_id
+    JOIN public.main_subject ON main_result.course_code = main_subject.course_code
+    where main_student.registration_number=%s;''',[regi])
+    data = []
+    for i in attendance:
+        data.append({
+            'subject_name': i.sn,
+            'attendance'  :i.attend
+        })
+    context ={'name':name, 
+    'credits': credits.sum,
+    'percent_registered': percent_registered,
+    'data'  : data,
+    
+    
+    }
     return render(request,'student_template/index.html',context)
+@login_required(login_url = 'login')
+def get_att(request, *args, **kwargs):
+    regi = request.user.student.registration_number
+    attendance = Result.objects.raw('''
+    SELECT 1 as id, subject_name as sn , attendence as attend FROM
+    public.main_student JOIN public.main_result ON
+    main_student.registration_number = main_result.student_id
+    JOIN public.main_subject ON main_result.course_code = main_subject.course_code
+    where main_student.registration_number=%s;''',[regi])
+    data =[]
+    labels =[]
+    for i in attendance:
+        labels.append(i.sn)
+        data.append(i.attend)
+
+    return JsonResponse(data={
+        'labels': labels,
+        'data':data,
+    })
+
 
 @login_required(login_url = 'login')
 @allowed_users(allowed_roles=['admin'])

@@ -7,7 +7,9 @@
             <div class="col-md-12 grid-margin">
               <div class="row">
                 <div class="col-12 col-xl-8 mb-4 mb-xl-0"> <!-- here name-->
-                  <a href="#" class="d-block">{{name}}</a>
+                  Welcome Student:   
+                  {{name}}
+                 
                   
                 </div>
                 <div class="col-12 col-xl-4">
@@ -30,8 +32,8 @@
                   <div class="card card-tale">
                     <div class="card-body">
                       <p class="mb-4">Total Credits</p>
-                      <p class="fs-30 mb-2">{{data_name}}</p>
-                      <p>10.00% (30 days)</p>
+                      <p class="fs-30 mb-2">160</p>
+                      <p>Needed To Get a Bachelor Degree</p>
                     </div>
                   </div>
                 </div>
@@ -39,8 +41,8 @@
                   <div class="card card-dark-blue">
                     <div class="card-body">
                       <p class="mb-4">Your Registered Credits</p>
-                      <p class="fs-30 mb-2">84.5</p>
-                      <p>22.00% (30 days)</p>
+                      <p class="fs-30 mb-2">{{credits}}</p>
+                      <p>{{percent_registered}}0% of Total Credits</p>
                     </div>
                   </div>
                 </div>
@@ -78,7 +80,7 @@
                  </div>
                   <p class="font-weight-500">The total number of sessions within the date range. It is the period time a user is actively engaged with your website, page or app, etc</p>
                   <div id="sales-legend" class="chartjs-legend mt-4 mb-2"></div>
-                  <canvas id="sales-chart"></canvas>
+                  <canvas id="sales-chart" data-url="{% url 'get_att' %}"></canvas>
                 </div>
               </div>
             </div>
