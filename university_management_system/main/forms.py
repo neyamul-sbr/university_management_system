@@ -55,4 +55,22 @@ class AdminForm(ModelForm):
         model = AdminUser
         fields = ['name','phone','profile_pic',]
 
+# class Myform(forms.Form):
+#     course_code = forms.CharField(max_length=200)
+#     registration_number = forms.CharField(max_length=200)
+
+class UpdateForm(ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super(UpdateForm, self).__init__(*args, **kwargs)
+        self.fields['student'].widget.attrs['hidden'] = True
+        self.fields['course_code'].widget.attrs['class'] = 'form-control'
+        self.fields['course_code'].widget.attrs['readonly'] = True
+        self.fields['marks'].widget.attrs['class'] = 'form-control'
+        self.fields['attendence'].widget.attrs['class'] = 'form-control'
+    class Meta:
+        model = Result
+        fields = '__all__'
+
+
 

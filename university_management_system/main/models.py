@@ -21,7 +21,7 @@ class Student(models.Model):
     
 
     def __str__(self):
-        return self.name
+        return self.registration_number
 
 class AdminUser(models.Model):
     user = models.OneToOneField(User, null = True, on_delete= models.CASCADE)

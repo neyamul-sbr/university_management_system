@@ -223,6 +223,32 @@ def full_attendance(request):
 def full_skillset(request):
     return render(request,'student_template/full_skillset.html')
 
+
+@login_required(login_url = 'login')
+@allowed_users(allowed_roles=['admin'])
+def search_result(request):
+    
+    if request.method == 'POST':
+        registration_number = request.POST.get('registration_number')
+        course_id = request.POST.get('course_code')
+        obj = Result.objects.get(student_id = registration_number ,course_code = course_id)
+        id = obj.id
+        return redirect(reverse('update_result', kwargs={"result_id": id}))
+       
+    return render(request,'admin_template/search_result.html')
+
+def update_result(request, result_id):
+    result = get_object_or_404(Result, id =result_id)
+    form = UpdateForm(request.POST or None, instance = result)
+    regi = result.student_id
+    context = {'form':form, 'regi': regi}
+    if form.is_valid():
+        form.save()
+    
+    return render (request, 'admin_template/update_result.html',context)
+
+
+
 def add_admin(request):
     return redirect('register')
 

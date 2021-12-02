@@ -13,6 +13,9 @@ urlpatterns = [
     path("get_subtype/",views.get_subtype, name ='get_subtype'),
     path("full_attendance/",views.full_attendance, name ='full_attendance'),
     path("full_skillset/",views.full_skillset, name ='full_skillset'),
+    path("result/", views.search_result, name = 'search_result'),
+    path("result/<result_id>/update", views.update_result, name ='update_result'),
+
 
 
 
