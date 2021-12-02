@@ -13,7 +13,7 @@
             <div class="justify-content-end d-flex">
               <div class="dropdown flex-md-grow-1 flex-xl-grow-0">
                 <div aria-haspopup="true" aria-expanded="true">
-                  Today (10 Jan 2021)
+                  Today, {% now "jS F Y (g:i a)" %}
                 </div>
               </div>
             </div>
@@ -38,7 +38,7 @@
               <div class="card-body">
                 <p class="mb-4">Your Registered Credits</p>
                 <p class="fs-30 mb-2">{{credits}}</p>
-                <p>{{percent_registered}}0% of Total Credits</p>
+                <p>{{percent_registered}}% of Total Credits</p>
               </div>
             </div>
           </div>
@@ -71,7 +71,7 @@
           <div class="card-body">
             <div class="d-flex justify-content-between">
               <p class="card-title">Attendence</p>
-              <a href="#" class="text-info">View all</a>
+              <a href="{% url 'full_attendance' %}" class="text-info">View Full Screen</a>
             </div>
             <p class="font-weight-500">
               The total number of sessions within the date range. It is the
@@ -88,10 +88,10 @@
         <div class="card">
           <div class="card-body">
             <div class="d-flex justify-content-between">
-              <p class="card-title">Pie Chart</p>
-              <a href="#" class="text-info">View all</a>
+              <p class="card-title">Skill Set Chart</p>
+              <a href="{% url 'full_skillset' %}" class="text-info">View Full Screen</a>
             </div>
-            <canvas id="pieChart" data-url="{% url 'get_subtype' %}"></canvas>
+            <canvas id="barChartH" data-url="{% url 'get_subtype' %}"></canvas>
           </div>
         </div>
       </div>

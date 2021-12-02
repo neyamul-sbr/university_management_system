@@ -86,44 +86,56 @@ def home(request):
 def studentHome(request):
     name = request.user.student.name
     regi = request.user.student.registration_number
+
+    res = Result.objects.filter(student_id = regi).first()
+
+    if res == None:
+        data = []
+        credits = 0
+        credits_passed = 0
+        percent_passed_credit = 0
+        percent_registered = 0
+        remain_credit =160
+        remain_credit_percent= 100
     
-    credits = Subject.objects.raw('''
-    SELECT 1 as id, SUM(credit)
-    FROM public.main_student JOIN public.main_result ON
-    main_student.registration_number = main_result.student_id
-    JOIN public.main_subject ON main_result.course_code = main_subject.course_code
-	where main_student.registration_number=%s;''',[regi])[0]
+    else:
+        credits = Subject.objects.raw('''
+        SELECT 1 as id, SUM(credit)
+        FROM public.main_student JOIN public.main_result ON
+        main_student.registration_number = main_result.student_id
+        JOIN public.main_subject ON main_result.course_code = main_subject.course_code
+        where main_student.registration_number=%s;''',[regi])[0].sum
 
-    credits_passed = Subject.objects.raw('''
-    SELECT 1 as id, SUM(credit)
-    FROM public.main_student JOIN public.main_result ON
-    main_student.registration_number = main_result.student_id
-    JOIN public.main_subject ON main_result.course_code = main_subject.course_code
-	where main_student.registration_number=%s and marks>=40;''',[regi])[0]
-    percent_passed_credit = ((credits_passed.sum)*100)/160
+        credits_passed = Subject.objects.raw('''
+        SELECT 1 as id, SUM(credit)
+        FROM public.main_student JOIN public.main_result ON
+        main_student.registration_number = main_result.student_id
+        JOIN public.main_subject ON main_result.course_code = main_subject.course_code
+        where main_student.registration_number=%s and marks>=40;''',[regi])[0].sum
+        percent_passed_credit = ((credits_passed)*100)/160
 
 
-    percent_registered = ((credits.sum)*100)/160
+        percent_registered = ((credits)*100)/160
 
-    remain_credit = 160- credits_passed.sum
+        remain_credit = 160- credits_passed
 
-    remain_credit_percent = ((remain_credit)*100)/160
-    attendance = Result.objects.raw('''
-    SELECT 1 as id, subject_name as sn , attendence as attend FROM
-    public.main_student JOIN public.main_result ON
-    main_student.registration_number = main_result.student_id
-    JOIN public.main_subject ON main_result.course_code = main_subject.course_code
-    where main_student.registration_number=%s;''',[regi])
-    data = []
-    for i in attendance:
-        data.append({
-            'subject_name': i.sn,
-            'attendance'  :i.attend
-        })
+        remain_credit_percent = ((remain_credit)*100)/160
+        attendance = Result.objects.raw('''
+        SELECT 1 as id, subject_name as sn , attendence as attend FROM
+        public.main_student JOIN public.main_result ON
+        main_student.registration_number = main_result.student_id
+        JOIN public.main_subject ON main_result.course_code = main_subject.course_code
+        where main_student.registration_number=%s;''',[regi])
+        data = []
+        for i in attendance:
+            data.append({
+                'subject_name': i.sn,
+                'attendance'  :i.attend
+            })
     context ={'name':name, 
-    'credits': credits.sum,
+    'credits': credits,
     'percent_registered': percent_registered,
-    'credits_passed' : credits_passed.sum,
+    'credits_passed' : credits_passed,
     'percent_passed_credit': percent_passed_credit,
     'remain_credit': remain_credit,
     'remain_credit_percent' : remain_credit_percent,
@@ -160,15 +172,15 @@ def get_subtype(request, *args, **kwargs):
     public.main_student JOIN public.main_result ON
     main_student.registration_number = main_result.student_id
     JOIN public.main_subject ON main_result.course_code = main_subject.course_code
-	where registration_number = %s
+	where registration_number = %s and marks>=40
     group by subtype;''',[regi])
 
     data =[]
     labels =[]
     for i in subtype:
         labels.append(i.subtype)
-        cntt = min(i.cnt*5,30)
-        data.append((i.sum_marks)*70/(i.cnt*100) + cntt)
+        cntt = min(i.cnt*.5,3)
+        data.append((i.sum_marks)*7/(i.cnt*100) + cntt)
 
     return JsonResponse(data={
         'labels': labels,
@@ -204,6 +216,12 @@ def add_student(request):
         else:
             messages.error(request, "Could Not Add")
     return render(request, 'student_template/add_student.html',context)
+@login_required(login_url = 'login')
+def full_attendance(request):
+    return render(request,'student_template/full_attendance.html')
+@login_required(login_url = 'login')
+def full_skillset(request):
+    return render(request,'student_template/full_skillset.html')
 
 def add_admin(request):
     return redirect('register')

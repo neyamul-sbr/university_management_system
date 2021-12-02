@@ -51,11 +51,8 @@ class AdminForm(ModelForm):
         # self.fields['profile_pic'].widget.attrs['class'] = 'form-control file-upload-info'
         # self.fields['profile_pic'].widget.attrs['disabled placeholder'] = "Upload Image"
         
-
-
     class Meta:
         model = AdminUser
         fields = ['name','phone','profile_pic',]
-
 
 
