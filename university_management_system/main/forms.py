@@ -73,4 +73,18 @@ class UpdateForm(ModelForm):
         fields = '__all__'
 
 
+class AddResultForm(ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super(AddResultForm, self).__init__(*args, **kwargs)
+        self.fields['student'].widget.attrs['hidden'] = True
+        self.fields['course_code'].widget.attrs['class'] = 'form-control'
+        self.fields['course_code'].widget.attrs['hidden'] = True
+        self.fields['marks'].widget.attrs['class'] = 'form-control'
+        self.fields['attendence'].widget.attrs['class'] = 'form-control'
+    class Meta:
+        model = Result
+        fields = '__all__'
+
+
 

@@ -187,6 +187,43 @@ def get_subtype(request, *args, **kwargs):
         'data':data,
     })
 
+@login_required(login_url = 'login')
+def get_subtype_language_marks(request, *args, **kwargs):
+    regi = request.user.student.registration_number
+    subtype = Result.objects.raw('''
+    SELECT 1 as id, subtype, SUM(marks) as sum_marks, count(subtype) as cnt FROM
+    public.main_student JOIN public.main_result ON
+    main_student.registration_number = main_result.student_id
+    JOIN public.main_subject ON main_result.course_code = main_subject.course_code
+	where registration_number = %s and marks>=40
+    group by subtype;''',[regi])
+
+    marksObj = Result.objects.raw('''
+    SELECT 1 as id, subject_name, main_subject.course_code as cc, marks FROM
+    public.main_student JOIN public.main_result ON
+    main_student.registration_number = main_result.student_id
+    JOIN public.main_subject ON main_result.course_code = main_subject.course_code
+	where registration_number = %s and subtype = 'Net';''',[regi])
+    
+
+    subject_name =[]
+    course_code =[]
+    marks = []
+    attr = []
+    attr.append("subject_name")
+    attr.append("course_code")
+    attr.append("marks")
+    json_res =[]
+    for i in marksObj:
+        obj = {}
+        obj[attr[0]] = i.subject_name
+        obj[attr[1]] = i.cc
+        obj[attr[2]]= i.marks
+        json_res.append(obj) 
+        
+
+    return JsonResponse(json_res, safe = False)
+
 
 @login_required(login_url = 'login')
 @allowed_users(allowed_roles=['admin'])
@@ -237,6 +274,28 @@ def search_result(request):
        
     return render(request,'admin_template/search_result.html')
 
+
+@login_required(login_url = 'login')
+@allowed_users(allowed_roles=['admin'])
+def search_student_registered(request):
+    
+    if request.method == 'POST':
+        regi = request.POST.get('registration_number')
+        course_id = request.POST.get('course_code')
+        res = Student.objects.filter(registration_number = regi).first()
+        sub = Subject.objects.filter(course_code = course_id).first()
+        if res == None:
+            return HttpResponse("The Student Is not Registered.. Register The Student First")
+        if sub == None:
+            return HttpResponse("The Subject Is not Registered.. Register The Subject First")
+        return redirect(reverse('add_result', kwargs= {"regi": regi, "course_id": course_id}))
+    return render(request,'admin_template/search_student_registered.html')
+        
+    
+       
+
+@login_required(login_url = 'login')
+@allowed_users(allowed_roles=['admin'])
 def update_result(request, result_id):
     result = get_object_or_404(Result, id =result_id)
     form = UpdateForm(request.POST or None, instance = result)
@@ -246,6 +305,24 @@ def update_result(request, result_id):
         form.save()
     
     return render (request, 'admin_template/update_result.html',context)
+
+
+@login_required(login_url = 'login')
+@allowed_users(allowed_roles=['admin'])
+def add_result(request, regi, course_id):
+    stu =  get_object_or_404(Student, registration_number = regi)
+    res = Result.objects.filter(student_id = regi, course_code = course_id).first()
+    if res != None:
+        return HttpResponse("The result already exist!!!")
+
+    form = AddResultForm(request.POST or None, initial ={'student': stu, 'course_code': course_id })
+    context = {'form':form, 'regi': regi, 'course_id': course_id}
+    if form.is_valid():
+        form.save()
+    return render(request, 'admin_template/add_result.html',context)
+
+
+
 
 
 

@@ -257,7 +257,20 @@
   <!-- Custom js for this page-->
   <script src="{% static 'template/js/dashboard.js' %}"></script>
   <script src="{% static 'template/js/Chart.roundedBarCharts.js' %}"></script>
+  <link href="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.css" rel="stylesheet">
+
+ <script src="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.js"></script>
+  
   <!-- End custom js for this page-->
 </body>
+<script>
+  var $table = $('#table')
 
+  $(function() {
+    $('#modalTable').on('shown.bs.modal', function () {
+      $table.bootstrapTable('resetView')
+    })
+  })
+</script>
+  
 </html>

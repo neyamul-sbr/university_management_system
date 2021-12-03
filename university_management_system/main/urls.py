@@ -15,6 +15,9 @@ urlpatterns = [
     path("full_skillset/",views.full_skillset, name ='full_skillset'),
     path("result/", views.search_result, name = 'search_result'),
     path("result/<result_id>/update", views.update_result, name ='update_result'),
+    path("add_result/<regi>/<course_id>", views.add_result, name='add_result'),
+    path("search_student_registered/", views.search_student_registered, name = 'search_student_registered'),
+    path("get_subtype_language_marks", views.get_subtype_language_marks, name = 'get_subtype_language_marks')
 
 
 
