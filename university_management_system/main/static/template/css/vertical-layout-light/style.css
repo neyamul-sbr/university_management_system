@@ -30591,5 +30591,9 @@ div.tagsinput span.tag a {
     display: none;
   }
 }
+th {
+  background-color: #3F3E91;
+  color: white;
+} 
 
 /*# sourceMappingURL=../maps/vertical-layout-light/style.css.map */

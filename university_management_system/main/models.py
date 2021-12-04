@@ -49,6 +49,9 @@ class Subject(models.Model):
     credit = models.FloatField(null = True)
     subtype = models.CharField(max_length= 200, null=True)
 
+    class Meta:
+        unique_together = (("course_code","subject_name","credit","subtype"))
+
 
 
 
