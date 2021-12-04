@@ -12,6 +12,7 @@ from django.contrib.auth.models import User
 class Student(models.Model):
     user = models.OneToOneField(User, null = True, on_delete= models.CASCADE)
     registration_number = models.CharField(max_length= 200, null=False, primary_key=True)
+    dept = models.CharField(max_length= 200, null=False)
     # is_admin =models.BooleanField(default= True )
     # is_student = models.BooleanField(default= False)
     name = models.CharField(max_length= 200, null= True)

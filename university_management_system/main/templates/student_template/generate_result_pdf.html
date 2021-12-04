@@ -47,7 +47,11 @@
     table {
       border-collapse: collapse;
       border: 1px solid black;
+      empty-cells:h;
+      
+
     }
+
 
     table.c {
       table-layout: auto;
@@ -96,6 +100,7 @@
 
     <p1 style="font-size: 4;"><b>Name:</b> {{name}} </p>
       <p1><b>Registration No:</b> {{regi}}</p>
+        <p1><b>Department :</b> {{dept}}</p>
         <p1><b>Phone:</b> {{phone}}</p>
           <p1><b>Email:</b> {{email}}</p>
             <p1><b>Current CGPA:</b> {{cgpa}}</p>
@@ -124,8 +129,16 @@
           <td>{{ person.credit}}</td>
           <td>{{ person.marks }}</td>
           <td>{{person.student_id}}</td>
+          
         </tr>
         {% endfor %}
+        <td><b>Cumulative GPA</b></td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+        <td><b>{{cgpa}}</b></td>
+        
+        
       </tbody>
     </table>
   </div>

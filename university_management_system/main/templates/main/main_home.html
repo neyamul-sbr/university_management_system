@@ -238,19 +238,37 @@
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'add_admin' %}">
-              <i class="icon-plus menu-icon"></i>
+              <i class="ti-user menu-icon"></i>
               <span class="menu-title">Add Admin</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'search_result' %}">
-              <i class="icon-plus menu-icon"></i>
+            <a class="nav-link" href="{% url 'add_subject' %}">
+              <i class="ti-pencil-alt menu-icon"></i>
+              <span class="menu-title">Register Subject</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'search_result1' %}">
+              <i class="ti-write menu-icon"></i>
               <span class="menu-title">Edit Result</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'search_student_registered' %}">
+              <i class="ti-face-smile menu-icon"></i>
+              <span class="menu-title">Add Result</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'add_j' %}">
+              <i class="ti-face-smile menu-icon"></i>
+              <span class="menu-title">Add Result Json</span>
             </a>
           </li>
         </ul>
       </nav>
-
+    
       {%block content%}
 
       {%endblock%}

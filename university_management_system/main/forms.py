@@ -30,13 +30,15 @@ class StudentForm(ModelForm):
         self.fields['phone'].widget.attrs['placeholder'] = "Student's Phone"
         self.fields['registration_number'].widget.attrs['class'] = 'form-control'
         self.fields['registration_number'].widget.attrs['placeholder'] = "registration_number"
+        self.fields['dept'].widget.attrs['class'] = 'form-control'
+        self.fields['dept'].widget.attrs['placeholder'] = 'Department'
         # self.fields['profile_pic'].widget.attrs['class'] = 'file-upload-default'
         # self.fields['profile_pic'].widget.attrs['class'] = 'form-control file-upload-info'
         # self.fields['profile_pic'].widget.attrs['disabled placeholder'] = "Upload Image"
 
     class Meta:
         model = Student
-        fields = ['name','phone','registration_number','profile_pic',]
+        fields = ['name','phone','registration_number','dept','profile_pic',]
 
 
 
@@ -87,4 +89,19 @@ class AddResultForm(ModelForm):
         fields = '__all__'
 
 
+class AddSubjectForm(ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super(AddSubjectForm, self).__init__(*args, **kwargs)
+        self.fields['course_code'].widget.attrs['class'] = 'form-control'
+        self.fields['course_code'].widget.attrs['placeholder'] = "Course Code"
+        self.fields['subject_name'].widget.attrs['class'] = 'form-control'
+        self.fields['subject_name'].widget.attrs['placeholder'] = "Subject's Name"
+        self.fields['credit'].widget.attrs['class'] = 'form-control'
+        self.fields['credit'].widget.attrs['placeholder'] = "Credit"
+        self.fields['subtype'].widget.attrs['class'] = 'form-control'
+        self.fields['subtype'].widget.attrs['placeholder'] = "Genre"
+    class Meta:
+        model = Subject
+        fields = '__all__'
 
