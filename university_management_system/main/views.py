@@ -628,7 +628,7 @@ def add_j(request):
         for i in range(0, len(y)):
             
             course = code
-            regi = str(y[i]["student_id"])
+            regi = y[i]["student_id"]
             marks =y[i]["marks"]
             attendence =y[i]["attendence"]
 
@@ -637,16 +637,23 @@ def add_j(request):
             print(type(regi))
             cd = Result.objects.filter(student_id = regi, course_code = course).first()
             if cd != None:
+                messages.error(request," %s student's  %s course's result already here "% (regi, course))
                 continue
-            messages.error()
+            
             sd = Student.objects.filter(registration_number = regi).first()
             if sd == None:
+                messages.error(request," %s student is not registered "% (regi))
                 continue
             sb = Subject.objects.filter(course_code = course).first()
             if sb == None:
+                messages.error(request," %s course is not registered "% (course))
                 continue
             cursor.execute('''INSERT INTO main_result (course_code, marks, attendence, student_id)
-            VALUES (%s,%s,%s,%s );''',[course, marks, attendence, regi])
+            VALUES (%s,%s,%s,%s );'''% (course, marks, attendence, regi))
+            messages.success(request," %s student's  %s course's result added "% (regi, course))
+            
+        messages.success(request,"Successfully Added Result for %s course"% (course))  
+        return redirect('home') 
             
 
 
