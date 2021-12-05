@@ -52,13 +52,3 @@ class Subject(models.Model):
 
     class Meta:
         unique_together = (("course_code","subject_name","credit","subtype"))
-
-
-
-
-
-
-
-
-
-

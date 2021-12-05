@@ -111,7 +111,45 @@ def logoutPage(request):
 @login_required(login_url = 'login')
 @allowed_users(allowed_roles=['admin'])
 def home(request):
-    return render(request,'admin_template/index.html')
+    name = request.user.adminuser.name
+    std1  = Subject.objects.raw('''
+        SELECT 1 as id, COUNT(*) as cnt
+        FROM main_student; ''')
+    sub2  =  Subject.objects.raw('''
+        SELECT 1 as id, COUNT(*) as cnt
+        FROM main_subject; ''')
+    admin_cnt2 =  Subject.objects.raw('''
+        SELECT 1 as id, COUNT(*) as cnt
+        FROM main_adminuser; ''')
+    
+    dept_cnt =  Subject.objects.raw('''
+        SELECT 1 as id, COUNT(*) as cnt
+        FROM main_student group by dept; ''')
+    cnt1 =0
+    for i in std1:
+        std = i.cnt
+    for i in sub2:
+        sub = i.cnt
+    for i in admin_cnt2:
+        admin_cnt = i.cnt
+    for i in dept_cnt:
+        cnt1=cnt1+1
+
+
+
+
+
+    context = { 'name':name,
+                 'std': std,
+                 'admin_cnt':admin_cnt,
+                 'dept_cnt': dept_cnt,
+                 'sub':sub,
+                 'cnt1':cnt1
+
+
+
+    }
+    return render(request,'admin_template/index.html',context)
 
 @login_required(login_url = 'login')
 @allowed_users(allowed_roles=['student'])
@@ -120,6 +158,12 @@ def studentHome(request):
     regi = request.user.student.registration_number
     dept = request.user.student.dept
     res = Result.objects.filter(student_id = regi).first()
+    Subject.objects.raw('''
+        SELECT 1 as id, SUM(credit)
+        FROM public.main_student JOIN public.main_result ON
+        main_student.registration_number = main_result.student_id
+        JOIN public.main_subject ON main_result.course_code = main_subject.course_code
+        where main_student.registration_number=%s;''',[regi])
 
     if res == None:
         data = []
@@ -628,13 +672,12 @@ def add_j(request):
         for i in range(0, len(y)):
             
             course = code
-            regi = y[i]["student_id"]
+            regi = str(y[i]["student_id"])
             marks =y[i]["marks"]
             attendence =y[i]["attendence"]
 
 
-            print(regi)
-            print(type(regi))
+
             cd = Result.objects.filter(student_id = regi, course_code = course).first()
             if cd != None:
                 messages.error(request," %s student's  %s course's result already here "% (regi, course))
